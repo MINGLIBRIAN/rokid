@@ -30,7 +30,7 @@ There are six columns for each row.
 
 `id (PK), url, name, price, stock, img`
 
-![architecture](architecture.png)
+![architecture](./imgs/architecture.png)
 
 All the items scraped will be processed and stored into DB in the item pipelines.
 
@@ -42,7 +42,7 @@ Because wrting operation is really painful for MySQL, Redis is introduced for ch
 
 Implemented RESTful API that provides JSON formatted data per request. The data can be filtered based on several conditions we provided. 
 
-![condition](condition.png)
+![condition](./imgs/condition.png)
 
 When the server started, always run the crawler first to update the database, after init invoke a subprocess to run the crawler every 30 minutes for data update. The update process is same with that in crawler.
 
@@ -50,4 +50,4 @@ When the server started, always run the crawler first to update the database, af
 
 JSONify the form data (condition) and send to the server, get the response and display all the data page by page. Using jQuery Ajax to implement asynchronous request and pagination.
 
-* The demo screenshot can be found in the root directory.
+* The demo screenshot can be found in the imgs directory.
