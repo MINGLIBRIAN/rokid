@@ -2,7 +2,7 @@
 
 > MySQL (DB) + Redis (Cache) + Flask (Server) + jQuery (Front End) + Scrapy (Crawler)
 
-## Prerequisites
+## Get started
 
 Install Python dependancy
 
@@ -11,6 +11,7 @@ Install Python dependancy
 Install MySQL and Redis
 
 https://dev.mysql.com/downloads/installer/
+
 https://redis.io/topics/quickstart
 
 Change the username and password of MySQL in `data.py` and `crawler/pipelines.py`
@@ -35,15 +36,15 @@ All the items scraped will be processed and stored into DB in the item pipelines
 
 #### DB and Cache
 
-Because wrting operation is really painful for MySQL, Redis is introduced for checking if the record is updated (only check stock information, because this is where our interest lies) and remove duplicated item.
+Because wrting operation is really painful for MySQL, Redis is introduced for checking if the record is updated (only check stock information, because this is where our interest lies) and remove duplicated item. And this step is done in the crawler pipeline.
 
 #### Server
 
-Implemented RESTful API that provides JSON formatted data per request. The data can be filtered based on several conditions provided by user. 
+Implemented RESTful API that provides JSON formatted data per request. The data can be filtered based on several conditions we provided. 
 
 ![condition](condition.png)
 
-Run the crawler first when the server started to update the database, and invoke a subprocess to run the crawler every 30 minutes for data update. The update process is same with that in crawler.
+When the server started, always run the crawler first to update the database, after init invoke a subprocess to run the crawler every 30 minutes for data update. The update process is same with that in crawler.
 
 #### Front End
 
