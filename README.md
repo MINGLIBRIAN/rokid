@@ -4,6 +4,7 @@
 
 ## Directory structure
 
+    .
     ├── crawler
     │   ├── __init__.py
     │   ├── adafruit.py         # The crawler
