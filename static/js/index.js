@@ -1,15 +1,15 @@
 function loadData(event) {
     var min = $('#min').val();
     var max = $('#max').val();
-    var order = $('input[name=order]:checked').val()
-    var stock = $('input[name=stock]:checked')
-    stock = $.map(stock, function(s) {
+    var order = $('input[name=order]:checked').val();
+    var stock = $('input[name=stock]:checked');
+    stock = $.map(stock, function (s) {
         return s.value
-    })
-    var price = $('input[name=price]:checked')
-    price = $.map(price, function(s) {
+    });
+    var price = $('input[name=price]:checked');
+    price = $.map(price, function (s) {
         return s.value
-    })
+    });
 
     option = {
         min: min,
@@ -33,13 +33,13 @@ function loadData(event) {
 
 function renderProduct(data) {
     var container = $("#product-container");
-    var pagination = $("#pagination")
+    var pagination = $("#pagination");
     container.empty();
     pagination.empty();
     var options = {
         dataSource: data,
         pageSize: 50,
-        callback: function(res, page) {
+        callback: function (res, page) {
             var dataHtml = '<div>';
 
             $.each(res, function (index, item) {
@@ -59,22 +59,23 @@ function renderProduct(data) {
                 } else {
                     item.stock = item.stock + ' In Stock';
                 }
+
                 dataHtml += '<div class="row">' +
-                                '<div class="col-md-4">' +
-                                    '<a href="' + item.url + '">' +
-                                        '<img class="img-fluid rounded mb-3 mb-md-0" src="' + item.img + '">' +
-                                    '</a>' +
-                                '</div>' +
-                                '<div class="col-md-8">' +
-                                    '<a href="' + item.url + '">' +
-                                        '<h4>' + item.name + '</h4>' +
-                                    '</a>' +
-                                    '<div>Product ID: ' + item.id + '</div>' +
-                                    '<div>Price: ' + item.price + '</div>' +
-                                    '<div>' + item.stock + '</div>' +
-                                '</div>' +
-                            '</div>' +
-                            '<hr>';
+                    '<div class="col-md-4">' +
+                    '<a href="' + item.url + '">' +
+                    '<img class="img-fluid rounded mb-3 mb-md-0" src="' + item.img + '">' +
+                    '</a>' +
+                    '</div>' +
+                    '<div class="col-md-8">' +
+                    '<a href="' + item.url + '">' +
+                    '<h4>' + item.name + '</h4>' +
+                    '</a>' +
+                    '<div>Product ID: ' + item.id + '</div>' +
+                    '<div>Price: ' + item.price + '</div>' +
+                    '<div>' + item.stock + '</div>' +
+                    '</div>' +
+                    '</div>' +
+                    '<hr>';
             });
             dataHtml += '</div>';
             container.html(dataHtml);

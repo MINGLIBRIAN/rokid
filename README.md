@@ -10,9 +10,9 @@ Install Python dependancy
 
 Install MySQL and Redis
 
-https://dev.mysql.com/downloads/installer/
+`https://dev.mysql.com/downloads/installer/`
 
-https://redis.io/topics/quickstart
+`https://redis.io/topics/quickstart`
 
 Change the username and password of MySQL in `data.py` and `crawler/pipelines.py`
 
