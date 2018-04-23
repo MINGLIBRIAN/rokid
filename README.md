@@ -74,7 +74,7 @@ Implemented RESTful API that provides JSON formatted data per request. The data 
 
 ![condition](./imgs/condition.png)
 
-When the server started, always run the crawler first to update the database. After initialization, invoke a subprocess to run the crawler that scrape data every 30 minutes for database update. The update process is same with that in crawler, i.e. check the stock information in Redis cache first, update database if changed.
+When the server started, always run the crawler first to update the database. After initialization, invoke a subprocess to run the crawler that scrape data every 30 minutes for database update. The update process is same with that in crawler, i.e. check the stock information in Redis cache first, update database only if changed.
 
 #### Front End
 
