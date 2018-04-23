@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>This is an example</title>
+</head>
+<body>
+
+<h1>This is an example</h1>
+{% if myVar %}
+<h2>The variable I passed in is: {{myVar}}</h2>
+{% else %}
+<h2>No variable passed in</h2>
+{% endif %}
+
+{% for link in links %}
+<a href="{{link}}">Link</a>
+{% endfor %}
+
+</body>
+</html>
