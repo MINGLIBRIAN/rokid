@@ -54,9 +54,9 @@ class AdafruitSpider(scrapy.Spider):
             price = product.css("span.red-sale-price::text").extract()
             if not price:
                 price = product.css("span.normal-price span::text").extract()
-                # If no price
+                # If no price information
                 if not price:
-                    price = '0'
+                    price = '-1'
                 else:
                     price = price[0]
             else:
@@ -90,6 +90,6 @@ class AdafruitSpider(scrapy.Spider):
             img = product.css("img::attr(src)").extract()[0]
             item['img'] = img
             return item
-        except IndexError as e:
-            logging.error("Crawler Parsing Error:", e.args[0], e.args[1])
+        except IndexError:
+            logging.error("Crawler Parsing Error")
             return

@@ -8,15 +8,12 @@
 
 import pymysql
 import logging
+import redis
 
-
-# import redis
-#
-# redis_db = redis.Redis()
 
 class CrawlerPipeline(object):
     def __init__(self):
-        self.redis_db = set()
+        self.redis_db = redis.Redis()
         self.connection = pymysql.connect(host='localhost',
                                           user='root',
                                           password='10',
@@ -24,16 +21,20 @@ class CrawlerPipeline(object):
         self.cursor = self.connection.cursor()
         self.cursor.execute("CREATE DATABASE IF NOT EXISTS rokid")
         self.cursor.execute("USE rokid")
-        # self.cursor.execute("DROP TABLE products")
-        self.cursor.execute("CREATE TABLE IF NOT EXISTS products ({})".format(",".join([
-            "id CHAR(100) NOT NULL",
-            "url CHAR(100)",
-            "name CHAR(100)",
-            "price FLOAT",
-            "stock INT",
-            "img CHAR(100)",
-            "PRIMARY KEY (id)"
-        ])))
+
+    def open_spider(self, spider):
+        # print("Crawler init:", spider.settings['IS_INITIALIZE'])
+        if spider.settings['IS_INITIALIZE']:
+            self.cursor.execute("DROP TABLE products")
+            self.cursor.execute("CREATE TABLE IF NOT EXISTS products ({})".format(",".join([
+                "id CHAR(100) NOT NULL",
+                "url CHAR(100)",
+                "name CHAR(100)",
+                "price FLOAT",
+                "stock INT",
+                "img CHAR(100)",
+                "PRIMARY KEY (id)"
+            ])))
 
     def process_item(self, item, spider):
         '''
@@ -42,9 +43,17 @@ class CrawlerPipeline(object):
         :return: Pass item to the pipeline
         '''
         if item['id'] in self.redis_db:
-            return
-        self.redis_db.add(item['id'])
-        # print(new_row)
+            # If initialization, this item is just repeated
+            if spider.settings['IS_INITIALIZE']:
+                # print('Duplicated item!')
+                return
+            num = int(self.redis_db.get(item['id']).decode('utf-8'))
+            # Only update if stock information is changed
+            if num == item['stock']:
+                # print('Unchanged item!')
+                return
+        self.redis_db.set(item['id'], item['stock'])
+
         try:
             new_row = [item['id'], item['url'], item['name'], item['price'], item['stock'], item['img']]
             new_row = list(map(lambda x: "'" + str(x) + "'", new_row))
@@ -61,5 +70,5 @@ class CrawlerPipeline(object):
             logging.error("Database Access Error:", e.args[0], e.args[1])
         return item
 
-    def spider_close(self, spider):
+    def close_spider(self, spider):
         self.connection.close()
