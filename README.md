@@ -10,9 +10,9 @@ Install Python dependancy
 
 Install MySQL and Redis
 
-`https://dev.mysql.com/downloads/installer/`
+[MySQL](https://dev.mysql.com/downloads/installer/)
 
-`https://redis.io/topics/quickstart`
+[Redis](https://redis.io/topics/quickstart)
 
 Change the username and password of MySQL in `data.py` and `crawler/pipelines.py`
 
@@ -26,13 +26,21 @@ Then run
 
 Initially, the Scrapy module is used to scrape data from the website and store into MySQL.
 
-There are six columns for each row.
+There are six fields for each row.
 
-`id (PK), url, name, price, stock, img`
-
-![architecture](./imgs/architecture.png)
+```
+id CHAR(100)
+url CHAR(100)
+name CHAR(100)
+price FLOAT
+stock INT
+img CHAR(100)
+PRIMARY KEY (id)
+```
 
 All the items scraped will be processed and stored into DB in the item pipelines.
+
+![architecture](./imgs/architecture.png)
 
 #### DB and Cache
 
@@ -44,10 +52,10 @@ Implemented RESTful API that provides JSON formatted data per request. The data 
 
 ![condition](./imgs/condition.png)
 
-When the server started, always run the crawler first to update the database, after init invoke a subprocess to run the crawler every 30 minutes for data update. The update process is same with that in crawler.
+When the server started, always run the crawler first to update the database. After initialization, invoke a subprocess to run the crawler that scrape data every 30 minutes for database update. The update process is same with that in crawler, i.e. check the stock information in Redis cache first, update database if changed.
 
 #### Front End
 
-JSONify the form data (condition) and send to the server, get the response and display all the data page by page (50 items per page). Using jQuery Ajax to implement asynchronous request and pagination.
+Send form params (condition) to the server, get the response and display all the data page by page (50 items per page). Using jQuery Ajax to implement asynchronous request and pagination.
 
 * The demo screenshot can be found in the imgs directory.
