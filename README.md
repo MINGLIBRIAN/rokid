@@ -48,8 +48,6 @@ When the server started, always run the crawler first to update the database, af
 
 #### Front End
 
-Using jQuery Ajax to implement asynchronous request and pagination.
-
-JSONify the form data (condition) and send to the server, get the response and display all the data page by page.
+JSONify the form data (condition) and send to the server, get the response and display all the data page by page. Using jQuery Ajax to implement asynchronous request and pagination.
 
 * The demo screenshot can be found in the root directory.
