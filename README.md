@@ -2,6 +2,27 @@
 
 > MySQL (DB) + Redis (Cache) + Flask (Server) + jQuery (Front End) + Scrapy (Crawler)
 
+## Directory structure
+
+    ├── crawler
+    │   ├── __init__.py
+    │   ├── adafruit.py         # The crawler
+    │   ├── crawler.py          # Provide crawler instance
+    │   ├── items.py
+    │   └── pipelines.py        # Scrape pipeline, process and store data
+    ├── imgs                    # Some pictures used in README
+    ├── static
+    │   ├── css
+    │   └── js
+    │       ├── index.js        # Send request, get response and display items
+    │       └── ...
+    ├── templates
+    │   └── index.html
+    ├── app.py                  # The server
+    ├── data.py                 # Provide data access to server
+    ├── scrape.py               # The crawler running in subprocess for periodical data update
+    └── ...
+
 ## Get started
 
 Install Python dependancy
