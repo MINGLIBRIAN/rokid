@@ -52,22 +52,26 @@ class CrawlerPipeline(object):
             if num == item['stock']:
                 # print('Unchanged item!')
                 return
-        self.redis_db.set(item['id'], item['stock'])
-
-        try:
-            new_row = [item['id'], item['url'], item['name'], item['price'], item['stock'], item['img']]
-            new_row = list(map(lambda x: "'" + str(x) + "'", new_row))
-
-            # Only insert when initialization, otherwise update the records
-            if spider.settings['IS_INITIALIZE']:
-                new_row = ",".join(new_row)
-                self.cursor.execute("INSERT IGNORE INTO products VALUES ({})".format(new_row))
-            else:
+            self.redis_db.set(item['id'], item['stock'])
+            try:
+                new_row = [item['id'], item['url'], item['name'], item['price'], item['stock'], item['img']]
+                new_row = list(map(lambda x: "'" + str(x) + "'", new_row))
                 new_row = "url={}, name={}, price={}, stock={}, img={}".format(*new_row[1:])
                 self.cursor.execute("UPDATE products SET {} WHERE id={}".format(new_row, item['id']))
-            self.connection.commit()
-        except pymysql.Error as e:
-            logging.error("Database Access Error:", e.args[0], e.args[1])
+                self.connection.commit()
+                # print("Updated!")
+            except pymysql.Error:
+                logging.error("Database Update Error")
+        else:
+            try:
+                new_row = [item['id'], item['url'], item['name'], item['price'], item['stock'], item['img']]
+                new_row = list(map(lambda x: "'" + str(x) + "'", new_row))
+                new_row = ",".join(new_row)
+                self.cursor.execute("INSERT IGNORE INTO products VALUES ({})".format(new_row))
+                self.connection.commit()
+                # print("Inserted!")
+            except pymysql.Error:
+                logging.error("Database Insert Error")
         return item
 
     def close_spider(self, spider):

@@ -7,5 +7,5 @@ if __name__ == '__main__':
         # print("I'm sleeping...")
 
         # Update the database per 30 minutes
-        time.sleep(200)
+        time.sleep(1800)
         crawler.start()

@@ -66,7 +66,7 @@ All the items scraped will be processed and stored into DB in the item pipelines
 
 #### DB and Cache
 
-Because wrting operation is really painful for MySQL, Redis is introduced for checking if the record is updated (only check stock information, because this is where our interest lies) and remove duplicated item. And this step is done in the crawler pipeline.
+Because wrting operation is really painful for MySQL, Redis is introduced for checking if the record is updated (only check stock information, because this is where our interest lies) and remove duplicated item. And Redis is powerful for frequent query, so it can be useful when load increases in future. This step is done in the crawler pipeline.
 
 #### Server
 

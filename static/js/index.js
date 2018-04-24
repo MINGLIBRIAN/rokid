@@ -36,6 +36,10 @@ function renderProduct(data) {
     var pagination = $("#pagination");
     container.empty();
     pagination.empty();
+    if (data['error']) {
+        container.html('<h1>' + data['error'] + '</h1>');
+        return container.show();
+    }
     var options = {
         dataSource: data,
         pageSize: 50,

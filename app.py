@@ -67,11 +67,13 @@ def get_products():
 
 if __name__ == '__main__':
     # Initialize redis database (only for init, can be commented)
-    r = redis.Redis()
-    r.flushdb()
+    # r = redis.Redis()
+    # r.flushdb()
 
     # Initialize or update database first (only for init, can be commented)
-    crawler = get_crawler(init=True)
+    # crawler = get_crawler(init=True)
+
+    crawler = get_crawler(init=False)
     crawler.start()
     del crawler
 
